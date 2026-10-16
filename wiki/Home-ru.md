@@ -2,10 +2,10 @@
 
 Офлайн-проверка физического смысла измерителей, сумм и качества данных. Подключения и команды устройствам отсутствуют.
 
-- [Начало работы](Usage-ru)
-- [Контракт и отчёт](Contract-ru)
-- [Диагностика](Troubleshooting-ru)
-- [English](Home)
+- [Начало работы](https://github.com/ha-homelab/ha-meter-contracts/wiki/Usage-ru)
+- [Контракт и отчёт](https://github.com/ha-homelab/ha-meter-contracts/wiki/Contract-ru)
+- [Диагностика](https://github.com/ha-homelab/ha-meter-contracts/wiki/Troubleshooting-ru)
+- [English](https://github.com/ha-homelab/ha-meter-contracts/wiki/Home)
 
 Общий измеритель блока не измеряет каждую розетку. Копия MQTT не является независимым источником. Unavailable не равно нулю. На этих различиях построен первый релиз.
 
