@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import copy
 import json
+import os
+import subprocess
+import sys
 from datetime import UTC, datetime
+from itertools import permutations
 from pathlib import Path
 
 import pytest
@@ -128,6 +132,32 @@ def test_provenance_must_have_one_physical_meaning():
     assert result["sums"][0]["value"] is None
 
 
+@pytest.mark.parametrize("order", list(permutations(range(3))))
+def test_provenance_conflict_disables_every_alias_in_any_order(order):
+    document = fixture()
+    original = copy.deepcopy(document["meters"][0])
+    alias = copy.deepcopy(original)
+    alias["id"] = "alias_a"
+    conflict = copy.deepcopy(document["meters"][1])
+    conflict["provenance"] = original["provenance"]
+    members = [original, alias, conflict]
+    document["meters"] = [members[i] for i in order]
+    document["sums"] = [
+        dict(
+            id="sum_" + meter["id"],
+            scope=meter["scope"],
+            meters=[meter["id"]],
+            quantity="power",
+            coverage="complete",
+        )
+        for meter in members
+    ]
+    report = check(document)
+    assert "provenance_conflict" in codes(report)
+    assert all(total["value"] is None for total in report["sums"])
+    assert all(total["status"] == "unavailable" for total in report["sums"])
+
+
 def test_voltage_calibration_does_not_calibrate_watts():
     document = fixture()
     document["meters"][0]["calibration"] = dict(
@@ -221,6 +251,57 @@ def test_reader_rejects_ambiguous_or_deep_input(text, fmt):
 def test_oversized_input():
     with pytest.raises(InputError, match="input_size"):
         loads_document(" " * (MAX_BYTES + 1))
+
+
+def test_file_reader_rejects_fifo_without_waiting(tmp_path):
+    pipe = tmp_path / "input.json"
+    os.mkfifo(pipe)
+    script = """
+import sys
+from ha_meter_contracts import InputError, load_document
+try:
+    load_document(sys.argv[1])
+except InputError as exc:
+    assert exc.code == "input_read"
+else:
+    raise AssertionError("FIFO accepted")
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script, str(pipe)],
+        capture_output=True,
+        text=True,
+        timeout=5,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_file_reader_rejects_symlink_directory_device_and_missing_file(tmp_path):
+    target = tmp_path / "target.json"
+    target.write_text("{}")
+    link = tmp_path / "link.json"
+    link.symlink_to(target)
+    for path in (link, tmp_path, Path(os.devnull), tmp_path / "missing.json"):
+        with pytest.raises(InputError, match="input_read"):
+            load_document(path)
+
+
+def test_file_reader_enforces_size_after_open_and_when_file_grows(tmp_path, monkeypatch):
+    path = tmp_path / "large.json"
+    path.write_bytes(b" " * (MAX_BYTES + 1))
+    with pytest.raises(InputError, match="input_size"):
+        load_document(path)
+    real_stat = os.fstat
+
+    def earlier_size(fd):
+        # Model growth after the size check: the read bound must still apply.
+        info = list(real_stat(fd))
+        info[6] = 0
+        return os.stat_result(info)
+
+    monkeypatch.setattr(os, "fstat", earlier_size)
+    with pytest.raises(InputError, match="input_size"):
+        load_document(path)
 
 
 def test_json_and_yaml_equivalent():

@@ -60,6 +60,7 @@ def audit(contract: Contract, *, at: datetime) -> dict[str, Any]:
         return {s for s in scopes if not children[s] and below(s, scope)}
 
     streams: dict[str, Meter] = {}
+    conflicting_streams: set[str] = set()
     ready: dict[str, bool] = {}
     for i, meter in enumerate(contract.meters):
         p = f"$.meters[{i}]"
@@ -78,7 +79,7 @@ def audit(contract: Contract, *, at: datetime) -> dict[str, Any]:
                 meter.sign,
             ):
                 add("provenance_conflict", "error", p + ".provenance", meter=original.id)
-                ready[original.id] = False
+                conflicting_streams.add(meter.provenance)
             else:
                 add("alias_stream", "info", p + ".provenance", meter=original.id)
         else:
@@ -143,6 +144,12 @@ def audit(contract: Contract, *, at: datetime) -> dict[str, Any]:
         ready[meter.id] = ready.get(meter.id, True) and not any(
             f["severity"] != "info" for f in findings[start:]
         )
+
+    # A physical stream cannot have two meanings. Invalidate every alias only
+    # after inspecting the entire group, including aliases preceding a conflict.
+    for meter in contract.meters:
+        if meter.provenance in conflicting_streams:
+            ready[meter.id] = False
 
     totals = []
     for i, total in enumerate(contract.sums):

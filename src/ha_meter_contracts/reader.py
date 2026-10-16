@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import stat
 from pathlib import Path
 from typing import Any
 
@@ -74,10 +76,28 @@ def loads_document(text: str, format: str = "json") -> Any:
 
 
 def load_document(path: str | Path) -> Any:
+    """Read one regular file; reject final symlinks and never wait on a FIFO."""
     p = Path(path)
     try:
-        with p.open("rb") as stream:
-            content = stream.read(MAX_BYTES + 1)
+        if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_NONBLOCK"):
+            raise InputError("input_read")
+        flags = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK
+        flags |= getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOCTTY", 0)
+        fd = os.open(p, flags)
+        try:
+            info = os.fstat(fd)
+            if not stat.S_ISREG(info.st_mode):
+                raise InputError("input_read")
+            if info.st_size > MAX_BYTES:
+                raise InputError("input_size", limit=MAX_BYTES)
+            content = b""
+            while len(content) <= MAX_BYTES:
+                chunk = os.read(fd, MAX_BYTES + 1 - len(content))
+                if not chunk:
+                    break
+                content += chunk
+        finally:
+            os.close(fd)
         if len(content) > MAX_BYTES:
             raise InputError("input_size", limit=MAX_BYTES)
         text = content.decode("utf-8")

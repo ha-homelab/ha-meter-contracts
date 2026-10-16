@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Make every alias of a conflicting physical provenance unavailable to sums, independent of input order.
+- Reject non-regular file inputs and final symlinks before reading; retain the byte limit when a file grows.
+
 ## 0.1.0 — initial source release
 
 - Typed offline contract parser and auditor for meter topology, provenance, additive scope, quantity and unit semantics.
