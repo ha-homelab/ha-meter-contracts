@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=78,<83"]
+requires = ["setuptools==83.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -13,7 +13,7 @@ dependencies = ["PyYAML==6.0.3"]
 classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<10", "ruff>=0.11,<1", "build>=1,<2"]
+dev = ["pytest>=9.0.3,<10", "ruff>=0.11,<1", "build>=1,<2"]
 
 [project.scripts]
 ha-meter-contracts = "ha_meter_contracts.cli:main"

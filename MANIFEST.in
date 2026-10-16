@@ -5,3 +5,6 @@ recursive-include scripts *.py
 recursive-include tests *.py
 recursive-include wiki *.md
 recursive-include src *.py *.typed *.json
+
+include GOVERNANCE.md CODE_OF_CONDUCT.md ROADMAP.md RELEASING.md
+recursive-include tools *.py
