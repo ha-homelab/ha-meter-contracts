@@ -11,6 +11,7 @@ This is an offline declaration validator, not a protection controller, electrici
 - Only a current and optional previous sample are checked. This is not a history database, anomaly detector, drift detector or complete counter-integrity audit.
 - HA source timestamps must exist and must actually represent acquisition. Cache receipt timestamps are not silently accepted as substitutes.
 - JSON/YAML loading is bounded; the library's `audit` API expects a `Contract` produced by the parser. Do not construct arbitrary malformed dataclasses from untrusted objects.
+- File input accepts regular files only. It rejects final-component symlinks, FIFOs, devices and directories, opening nonblocking and checking the opened descriptor before reading. Platforms without `O_NOFOLLOW` and `O_NONBLOCK` reject file input; use `ha_meter_contracts.reader.loads_document` with an already bounded string there. Parent-directory symlinks are not a sandbox boundary. The byte limit is enforced even if a file grows during reading.
 - No proof of physical relay, valve, motor, pump flow or electrical safety follows from a passing result. No automatic repair or retries are performed.
 
 Inputs and outputs may contain operator-supplied entity IDs and times. Keep real contracts/exports private. The repository includes synthetic examples only. The program does not upload data, but redirecting its report to an external service is the operator's choice.

@@ -20,7 +20,7 @@ Required fields:
 - `quantity`: `power`, `energy`, `voltage`, `current`.
 - `unit`: respectively W/kW, Wh/kWh, V, A. The parser accepts the vocabulary; the auditor checks the dimension.
 - `kind`: `measured` or `estimated`. This is a declaration, not laboratory verification.
-- `provenance`: stable identity of the physical measurement stream, **not** its HA/MQTT representation. Alias readings share it. Different sign/quantity/scope with one provenance is a conflict. Choose separate provenance for genuinely distinct flow channels.
+- `provenance`: stable identity of the physical measurement stream, **not** its HA/MQTT representation. Alias readings share it. Different sign/quantity/scope with one provenance is a conflict; every alias of that conflicted stream becomes unavailable for sums, regardless of input order. Choose separate provenance for genuinely distinct flow channels.
 - `sign`: `nonnegative` for consumption-only/import-only/export-only magnitude; `signed` for a declared bidirectional flow. This release does not infer which physical direction is positive.
 - `state_class`: `measurement`, `total`, `total_increasing`.
 - `freshness_seconds`: positive age budget, 0.001–604800 seconds.
