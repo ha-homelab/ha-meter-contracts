@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Update CI to pytest 9.0.3 (GHSA-6w46-j5rx-g56g) and the build backend to setuptools 83.0.0 (upstream fix for GHSA-h35f-9h28-mq5c).
+- Document private reporting, review/release responsibilities, contribution rules and the current continuity limitation; include these policies in source distributions.
+
 - Make every alias of a conflicting physical provenance unavailable to sums, independent of input order.
 - Reject non-regular file inputs and final symlinks before reading; retain the byte limit when a file grows.
 
