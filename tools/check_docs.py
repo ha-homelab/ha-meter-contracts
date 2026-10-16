@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Check documentation languages, relative links and original SVG syntax."""
 
-from pathlib import Path
 import re
 import subprocess
+from pathlib import Path
 from urllib.parse import unquote
 from xml.etree import ElementTree as ET
 
