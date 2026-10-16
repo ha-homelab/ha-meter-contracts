@@ -1,0 +1,314 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "kind": {
+            "enum": [
+              "site",
+              "circuit",
+              "strip",
+              "outlet",
+              "load"
+            ]
+          },
+          "parent": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ]
+      },
+      "maxItems": 512,
+      "minItems": 1
+    },
+    "meters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "scope": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "quantity": {
+            "enum": [
+              "power",
+              "energy",
+              "voltage",
+              "current"
+            ]
+          },
+          "unit": {
+            "enum": [
+              "W",
+              "kW",
+              "Wh",
+              "kWh",
+              "V",
+              "A"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "measured",
+              "estimated"
+            ]
+          },
+          "provenance": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "sign": {
+            "enum": [
+              "nonnegative",
+              "signed"
+            ]
+          },
+          "state_class": {
+            "enum": [
+              "measurement",
+              "total",
+              "total_increasing"
+            ]
+          },
+          "reset": {
+            "enum": [
+              "not_applicable",
+              "never",
+              "periodic",
+              "device_restart",
+              "unknown"
+            ]
+          },
+          "freshness_seconds": {
+            "type": "number",
+            "minimum": 0.001,
+            "maximum": 604800
+          },
+          "sample": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": -1000000000000000.0,
+                        "maximum": 1000000000000000.0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "measured_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "maxLength": 40
+                  },
+                  "reset_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "value",
+                  "measured_at"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": -1000000000000000.0,
+                        "maximum": 1000000000000000.0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "measured_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "maxLength": 40
+                  },
+                  "reset_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "value",
+                  "measured_at"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "calibration": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "quantity": {
+                    "enum": [
+                      "power",
+                      "energy",
+                      "voltage",
+                      "current"
+                    ]
+                  },
+                  "factor": {
+                    "type": "number",
+                    "minimum": 1e-12,
+                    "maximum": 1000000000000.0
+                  },
+                  "reference": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+                  },
+                  "verified_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "quantity",
+                  "factor",
+                  "reference",
+                  "verified_at"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "entity_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "timestamp_attribute": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          }
+        },
+        "required": [
+          "id",
+          "scope",
+          "quantity",
+          "unit",
+          "kind",
+          "provenance",
+          "sign",
+          "state_class",
+          "freshness_seconds"
+        ]
+      },
+      "maxItems": 512,
+      "minItems": 1
+    },
+    "sums": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "scope": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+          },
+          "meters": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"
+            },
+            "maxItems": 512,
+            "minItems": 1
+          },
+          "quantity": {
+            "enum": [
+              "power",
+              "energy"
+            ]
+          },
+          "coverage": {
+            "enum": [
+              "partial",
+              "complete"
+            ]
+          },
+          "max_skew_seconds": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 604800
+          }
+        },
+        "required": [
+          "id",
+          "scope",
+          "meters",
+          "quantity",
+          "coverage"
+        ]
+      },
+      "maxItems": 128,
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "scopes",
+    "meters"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HA Meter Contracts v1",
+  "description": "Structural schema only; run the CLI for physical and sample-quality rules."
+}

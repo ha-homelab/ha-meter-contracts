@@ -1,0 +1,8 @@
+- [Home](Home)
+- [Usage](Usage)
+- [Contract](Contract)
+- [Troubleshooting](Troubleshooting)
+- [Главная](Home-ru)
+- [Использование](Usage-ru)
+- [Контракт](Contract-ru)
+- [Диагностика](Troubleshooting-ru)

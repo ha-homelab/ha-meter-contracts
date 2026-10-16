@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "scopes": [
+    {
+      "id": "strip",
+      "kind": "strip"
+    },
+    {
+      "id": "outlet_a",
+      "kind": "outlet",
+      "parent": "strip"
+    },
+    {
+      "id": "outlet_b",
+      "kind": "outlet",
+      "parent": "strip"
+    },
+    {
+      "id": "outlet_c",
+      "kind": "outlet",
+      "parent": "strip"
+    }
+  ],
+  "meters": [
+    {
+      "id": "whole_strip",
+      "scope": "strip",
+      "quantity": "power",
+      "unit": "W",
+      "kind": "measured",
+      "provenance": "whole_strip",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "entity_id": "sensor.example_strip_power",
+      "timestamp_attribute": "source_measured_at"
+    }
+  ],
+  "sums": []
+}

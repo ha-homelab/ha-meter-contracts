@@ -1,0 +1,7 @@
+include README*.md LICENSE CONTRIBUTING.md SECURITY.md CHANGELOG.md version schema.json
+recursive-include docs *.md *.svg
+recursive-include examples *.json *.yaml
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include wiki *.md
+recursive-include src *.py *.typed *.json

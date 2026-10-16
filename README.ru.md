@@ -1,0 +1,57 @@
+# HA Meter Contracts
+
+Проверка **физического смысла измерений**, допустимости сумм и свежести данных. Работает офлайн с JSON/YAML. Не требует токена HA, не подключается к сети и не отправляет команды устройствам.
+
+[English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md)
+
+Один измеритель трёхвыходной розетки показывает суммарную мощность. Переименование в «мощность насоса» не превращает её в индивидуальное измерение. Два представления одного CT в HA/MQTT тоже не являются двумя независимыми источниками.
+
+![Синтетическая схема трёх розеток](docs/images/topology.svg)
+
+## Установка
+
+Нужен Python 3.11+. В скачанном исходном репозитории:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python3 -m pip install .
+.venv/bin/ha-meter-contracts check examples/valid-three-meters.json --at 2026-01-01T12:00:05Z --lang ru
+.venv/bin/ha-meter-contracts check examples/kmc-shared-meter.json --at 2026-01-01T12:00:05Z --json --lang ru
+```
+
+Первый пример даёт **720 Вт** из трёх независимых синтетических измерителей. Второй намеренно завершается кодом **1** с `scope_outside`: сумма всей розетки не определяет нагрузку одного выхода. Фиксированная дата делает примеры воспроизводимыми. Без `--at` используется текущее UTC-время.
+
+Это исходный релиз; публикация в PyPI и физическая приёмка устройств не заявляются.
+
+## Возможности
+
+Проверка ограниченного строгого ввода, ссылок и циклов, пересечения родителя с детьми, общего происхождения данных, полноты объявленной топологии, W/kW и Wh/kWh, знака, сброса энергии, возраста и рассогласования измерений. Калибровка относится только к своей величине; корректное напряжение не подтверждает точность ватт. Оценка остаётся помеченной как `estimated`.
+
+[Использование](docs/ru/usage.md) · [Схема](docs/ru/schema.md) · [Диагностика](docs/ru/troubleshooting.md) · [Ограничения](docs/ru/limits.md) · [Источники](docs/sources.md) · [Wiki](wiki/Home-ru.md)
+
+## JSON и коды завершения
+
+Отчёт версии 1 содержит стабильные `code`, `severity`, `path`, `params` и переведённое `message`. Имена полей и коды не переводятся. **0** — нет ошибок и предупреждений; **1** — они есть; **2** — некорректный ввод или аргументы. Недостоверная сумма возвращается как `null`, статус — `unavailable`, а не ноль.
+
+## Импорт сохранённого HA-экспорта
+
+```sh
+.venv/bin/ha-meter-contracts import-ha examples/ha-contract.json --ha-states examples/ha-states.synthetic.json > /tmp/meter-contract.json
+.venv/bin/ha-meter-contracts check /tmp/meter-contract.json --at 2026-01-01T12:00:05Z --lang ru
+```
+
+Адаптер копирует только явно сопоставленные величины и исходные метки времени. `last_updated`, `last_changed`, `last_reported` не подменяют время измерения. Подключение к живому HA не выполняется.
+
+## Разработка
+
+```sh
+.venv/bin/python3 -m pip install -e '.[dev]'
+.venv/bin/python3 -m pytest -q
+.venv/bin/python3 -m ruff check .
+.venv/bin/python3 -m ruff format --check .
+.venv/bin/python3 scripts/generate_schema.py
+.venv/bin/python3 scripts/generate_diagrams.py
+.venv/bin/python3 -m build
+```
+
+Все примеры и рисунки синтетические. Программа проверяет контракт, но не обнаруживает реальную проводку, не заменяет защиту насоса и не сертифицирует оборудование. [MIT](LICENSE) · [Участие](CONTRIBUTING.md) · [Безопасность](SECURITY.md).

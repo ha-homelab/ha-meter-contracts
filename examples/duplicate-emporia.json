@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "scopes": [
+    {
+      "id": "circuit_a",
+      "kind": "circuit"
+    }
+  ],
+  "meters": [
+    {
+      "id": "direct",
+      "scope": "circuit_a",
+      "quantity": "power",
+      "unit": "kW",
+      "kind": "measured",
+      "provenance": "ct_stream_a",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "sample": {
+        "value": 0.8,
+        "measured_at": "2026-01-01T12:00:00Z"
+      }
+    },
+    {
+      "id": "bridge",
+      "scope": "circuit_a",
+      "quantity": "power",
+      "unit": "W",
+      "kind": "measured",
+      "provenance": "ct_stream_a",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "sample": {
+        "value": 800,
+        "measured_at": "2026-01-01T12:00:00Z"
+      }
+    }
+  ],
+  "sums": [
+    {
+      "id": "invalid_total",
+      "scope": "circuit_a",
+      "meters": [
+        "direct",
+        "bridge"
+      ],
+      "quantity": "power",
+      "coverage": "complete"
+    }
+  ]
+}
