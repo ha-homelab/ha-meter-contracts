@@ -1,0 +1,11 @@
+[
+  {
+    "entity_id": "sensor.example_strip_power",
+    "state": "0.72",
+    "attributes": {
+      "unit_of_measurement": "kW",
+      "source_measured_at": "2026-01-01T12:00:00Z",
+      "friendly_name": "Synthetic demonstration meter"
+    }
+  }
+]

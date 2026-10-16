@@ -1,0 +1,8 @@
+- [Home](https://github.com/ha-homelab/ha-meter-contracts/wiki/Home)
+- [Usage](https://github.com/ha-homelab/ha-meter-contracts/wiki/Usage)
+- [Contract](https://github.com/ha-homelab/ha-meter-contracts/wiki/Contract)
+- [Troubleshooting](https://github.com/ha-homelab/ha-meter-contracts/wiki/Troubleshooting)
+- [Главная](https://github.com/ha-homelab/ha-meter-contracts/wiki/Home-ru)
+- [Использование](https://github.com/ha-homelab/ha-meter-contracts/wiki/Usage-ru)
+- [Контракт](https://github.com/ha-homelab/ha-meter-contracts/wiki/Contract-ru)
+- [Диагностика](https://github.com/ha-homelab/ha-meter-contracts/wiki/Troubleshooting-ru)

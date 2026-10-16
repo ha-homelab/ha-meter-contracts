@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "scopes": [
+    {
+      "id": "strip",
+      "kind": "strip"
+    },
+    {
+      "id": "outlet_a",
+      "kind": "outlet",
+      "parent": "strip"
+    },
+    {
+      "id": "outlet_b",
+      "kind": "outlet",
+      "parent": "strip"
+    },
+    {
+      "id": "outlet_c",
+      "kind": "outlet",
+      "parent": "strip"
+    }
+  ],
+  "meters": [
+    {
+      "id": "meter_a",
+      "scope": "outlet_a",
+      "quantity": "power",
+      "unit": "W",
+      "kind": "measured",
+      "provenance": "meter_a",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "sample": {
+        "value": 700,
+        "measured_at": "2026-01-01T11:58:00Z"
+      }
+    },
+    {
+      "id": "meter_b",
+      "scope": "outlet_b",
+      "quantity": "power",
+      "unit": "kW",
+      "kind": "measured",
+      "provenance": "meter_b",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "sample": {
+        "value": null,
+        "measured_at": "2026-01-01T12:00:00Z"
+      }
+    },
+    {
+      "id": "meter_c",
+      "scope": "outlet_c",
+      "quantity": "power",
+      "unit": "W",
+      "kind": "estimated",
+      "provenance": "meter_c",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "sample": {
+        "value": 0,
+        "measured_at": "2026-01-01T12:00:00Z"
+      }
+    }
+  ],
+  "sums": [
+    {
+      "id": "strip_total",
+      "scope": "strip",
+      "meters": [
+        "meter_a",
+        "meter_b",
+        "meter_c"
+      ],
+      "quantity": "power",
+      "coverage": "complete"
+    }
+  ]
+}

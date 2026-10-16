@@ -1,0 +1,19 @@
+# Synthetic measurement, not a discovered or connected device.
+schema_version: 1
+scopes:
+  - id: strip
+    kind: strip
+meters:
+  - id: total_power
+    scope: strip
+    quantity: power
+    unit: W
+    kind: measured
+    provenance: total_power_stream
+    sign: nonnegative
+    state_class: measurement
+    freshness_seconds: 30
+    sample:
+      value: 0
+      measured_at: "2026-01-01T12:00:00Z"
+sums: []

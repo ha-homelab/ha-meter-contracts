@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "scopes": [
+    {
+      "id": "strip",
+      "kind": "strip"
+    },
+    {
+      "id": "outlet_a",
+      "kind": "outlet",
+      "parent": "strip"
+    },
+    {
+      "id": "outlet_b",
+      "kind": "outlet",
+      "parent": "strip"
+    },
+    {
+      "id": "outlet_c",
+      "kind": "outlet",
+      "parent": "strip"
+    }
+  ],
+  "meters": [
+    {
+      "id": "whole_strip",
+      "scope": "strip",
+      "quantity": "power",
+      "unit": "W",
+      "kind": "measured",
+      "provenance": "whole_strip",
+      "sign": "nonnegative",
+      "state_class": "measurement",
+      "freshness_seconds": 30,
+      "sample": {
+        "value": 720,
+        "measured_at": "2026-01-01T12:00:00Z"
+      }
+    }
+  ],
+  "sums": [
+    {
+      "id": "invalid_individual_load",
+      "scope": "outlet_a",
+      "meters": [
+        "whole_strip"
+      ],
+      "quantity": "power",
+      "coverage": "complete"
+    }
+  ]
+}
