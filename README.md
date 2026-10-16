@@ -1,5 +1,7 @@
 # HA Meter Contracts
 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15566/badge)](https://www.bestpractices.dev/projects/15566)
+
 Read-only validation of **what a meter measures**, how readings may be combined, and whether a sample is usable. Works offline with JSON or YAML. No Home Assistant token, network connection, or device command is used.
 
 [Русский](README.ru.md) · [Deutsch](README.de.md) · [Español](README.es.md)
@@ -64,3 +66,10 @@ The offline adapter copies only explicitly mapped measurements and source-time a
 All fixtures and illustrations are synthetic. Tests cover false pump attribution, alias double counting, counter resets, stale/future data, malformed input, offline import and EN/RU/DE/ES translation parity. This validator checks declarations; it does not discover wiring, certify electrical protection or repair hardware.
 
 MIT licensed. [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md).
+
+## Project maintenance
+
+See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md),
+[Governance](GOVERNANCE.md), [Code of Conduct](CODE_OF_CONDUCT.md),
+[Roadmap](ROADMAP.md), [Source releases](RELEASING.md), and
+[Quality evidence](docs/quality.md).
