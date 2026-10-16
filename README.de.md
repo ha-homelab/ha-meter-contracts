@@ -23,7 +23,7 @@ Das erste synthetische Beispiel ergibt 720 W. Das zweite meldet doppelte Herkunf
 
 ## Schnittstelle
 
-`--lang de` übersetzt Hilfe und Befunde. JSON-Schlüssel, Codes, Pfade und Parameter bleiben sprachunabhängig. Status 0: keine Fehler/Warnungen; 1: Befunde vorhanden; 2: Eingabe- oder Aufruffehler. Ungültige Summen bleiben `null` / `unavailable`.
+`--lang de` übersetzt Hilfe und Befunde. JSON-Schlüssel, Codes, Pfade und Parameter bleiben sprachunabhängig. Status 0: keine Fehler/Warnungen; 1: mindestens ein Fehler oder eine Warnung; 2: Eingabe- oder Aufruffehler. Reine Informationen führen weiterhin zu Status 0. Ungültige Summen bleiben `null` / `unavailable`.
 
 Geprüft werden Zyklen, fehlende Bereiche, überlappende Zähler, gemeinsame Herkunft, Einheiten, Vorzeichen, Rücksetzungen, Messalter, Zeitversatz und die Messgröße einer Kalibrierung. Schätzungen bleiben `estimated`. Spannungskalibrierung belegt keine Leistungskalibrierung.
 

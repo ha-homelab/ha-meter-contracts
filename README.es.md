@@ -23,7 +23,7 @@ El primer ejemplo sintético da 720 W. El segundo detecta una fuente duplicada y
 
 ## Interfaz
 
-`--lang es` traduce la ayuda y los diagnósticos. Los campos JSON, códigos, rutas y parámetros no cambian de idioma. Código 0: sin errores ni advertencias; 1: hay hallazgos; 2: entrada o argumentos inválidos. Una suma no fiable devuelve `null` / `unavailable`, nunca un cero inventado.
+`--lang es` traduce la ayuda y los diagnósticos. Los campos JSON, códigos, rutas y parámetros no cambian de idioma. Código 0: sin errores ni advertencias; 1: hay al menos un error o una advertencia; 2: entrada o argumentos inválidos. Los hallazgos solo informativos mantienen el código 0. Una suma no fiable devuelve `null` / `unavailable`, nunca un cero inventado.
 
 Comprueba ciclos, referencias, solapamientos, procedencia duplicada, unidades, signos, reinicios, antigüedad, desfase temporal y calibración por magnitud. Una estimación sigue marcada `estimated`. Calibrar voltaje no calibra potencia.
 

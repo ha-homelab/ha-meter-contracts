@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Audit the Git index without printing content; complementary to Gitleaks."""
 
-from pathlib import PurePosixPath
 import re
 import subprocess
 import sys
+from pathlib import PurePosixPath
 
 DENIED = {
     ".venv",
