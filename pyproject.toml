@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ha-meter-contracts"
-version = "0.1.0"
+version = "0.1.1b1"
 description = "Read-only, offline validation of physical meter topology and sample quality"
 readme = "README.md"
 requires-python = ">=3.11"
