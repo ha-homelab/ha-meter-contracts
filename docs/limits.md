@@ -1,5 +1,35 @@
+<a id="limits-and-trust-boundary"></a>
+
 # Limits and trust boundary
 
+<!-- language-navigation:start -->
+<p dir="ltr">
+<a href="limits.md" lang="en" dir="ltr">English</a> ·
+<a href="ar/limits.md" lang="ar" dir="rtl">العربية</a> ·
+<a href="bn/limits.md" lang="bn" dir="ltr">বাংলা</a> ·
+<a href="cs/limits.md" lang="cs" dir="ltr">Čeština</a> ·
+<a href="de/limits.md" lang="de" dir="ltr">Deutsch</a> ·
+<a href="es/limits.md" lang="es" dir="ltr">Español</a> ·
+<a href="fa/limits.md" lang="fa" dir="rtl">فارسی</a> ·
+<a href="fr/limits.md" lang="fr" dir="ltr">Français</a> ·
+<a href="he/limits.md" lang="he" dir="rtl">עברית</a> ·
+<a href="hi/limits.md" lang="hi" dir="ltr">हिन्दी</a> ·
+<a href="id/limits.md" lang="id" dir="ltr">Bahasa Indonesia</a> ·
+<a href="it/limits.md" lang="it" dir="ltr">Italiano</a> ·
+<a href="ja/limits.md" lang="ja" dir="ltr">日本語</a> ·
+<a href="ko/limits.md" lang="ko" dir="ltr">한국어</a> ·
+<a href="nl/limits.md" lang="nl" dir="ltr">Nederlands</a> ·
+<a href="pl/limits.md" lang="pl" dir="ltr">Polski</a> ·
+<a href="pt/limits.md" lang="pt" dir="ltr">Português</a> ·
+<a href="ru/limits.md" lang="ru" dir="ltr">Русский</a> ·
+<a href="th/limits.md" lang="th" dir="ltr">ไทย</a> ·
+<a href="tr/limits.md" lang="tr" dir="ltr">Türkçe</a> ·
+<a href="uk/limits.md" lang="uk" dir="ltr">Українська</a> ·
+<a href="vi/limits.md" lang="vi" dir="ltr">Tiếng Việt</a> ·
+<a href="zh-Hans/limits.md" lang="zh-Hans" dir="ltr">简体中文</a> ·
+<a href="zh-Hant/limits.md" lang="zh-Hant" dir="ltr">繁體中文</a>
+</p>
+<!-- language-navigation:end -->
 This is an offline declaration validator, not a protection controller, electrician's test instrument, wiring discovery service or Home Assistant integration that executes actions.
 
 - One total measurement cannot recover exact simultaneous power for three unknown loads. Statistical guesses would be estimates, not protection-grade measurements.
