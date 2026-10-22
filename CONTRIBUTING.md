@@ -6,7 +6,7 @@ Keep network access and actuator code outside this validator. Do not contribute 
 
 Changes should use a focused feature branch and pull request, with signed commits and required CI passing. GitHub Actions dependencies must be pinned to immutable full commit SHAs. Do not push directly to main. Follow the repository's current publication process; package version, root `version`, and release tag must agree.
 
-English, Russian, German and Spanish corrections are welcome. CLI catalogs require key parity; machine fields intentionally remain language-independent. Major semantic changes also need EN/RU guide updates.
+English, Russian, German and Spanish corrections are welcome. CLI catalogs require key parity; machine fields intentionally remain language-independent. The complete guides and checked-in wiki pages cover 24 documentation languages; semantic changes require matching updates in every edition. See [translation maintenance](docs/translations.md) for source digests, exact examples, RTL layout and checks.
 
 
 ## Feedback and review

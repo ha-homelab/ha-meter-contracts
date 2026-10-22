@@ -6,3 +6,5 @@
 - [Использование](https://github.com/ha-homelab/ha-meter-contracts/wiki/Usage-ru)
 - [Контракт](https://github.com/ha-homelab/ha-meter-contracts/wiki/Contract-ru)
 - [Диагностика](https://github.com/ha-homelab/ha-meter-contracts/wiki/Troubleshooting-ru)
+
+- [All 24 documentation languages](https://github.com/ha-homelab/ha-meter-contracts/blob/main/docs/translations.md)

@@ -1,5 +1,7 @@
 # HA Meter Contracts
 
+Die vollständigen Anleitungen und die versionierten Wiki-Seiten sind in **24 Dokumentationssprachen** verfügbar. Siehe [Sprachindex und Pflegeanleitung](docs/translations.md). CLI-Meldungen bleiben auf Englisch, Russisch, Deutsch und Spanisch verfügbar.
+
 Offline-Prüfung der physikalischen Bedeutung von Messwerten, ihrer Addierbarkeit und Aktualität. JSON/YAML; kein HA-Token, kein Netzwerkzugriff, keine Gerätebefehle.
 
 [English](README.md) · [Русский](README.ru.md) · [Español](README.es.md)

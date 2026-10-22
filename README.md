@@ -1,5 +1,7 @@
 # HA Meter Contracts
 
+The full guides and checked-in wiki pages are available in **24 documentation languages**. See the [language index and maintenance guide](docs/translations.md). CLI message languages remain English, Russian, German and Spanish.
+
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15566/badge)](https://www.bestpractices.dev/projects/15566)
 
 Read-only validation of **what a meter measures**, how readings may be combined, and whether a sample is usable. Works offline with JSON or YAML. No Home Assistant token, network connection, or device command is used.

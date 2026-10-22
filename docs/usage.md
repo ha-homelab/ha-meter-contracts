@@ -1,4 +1,36 @@
+<a id="usage"></a>
+
 # Usage
+
+<!-- language-navigation:start -->
+<p dir="ltr">
+<a href="usage.md" lang="en" dir="ltr">English</a> ·
+<a href="ar/usage.md" lang="ar" dir="rtl">العربية</a> ·
+<a href="bn/usage.md" lang="bn" dir="ltr">বাংলা</a> ·
+<a href="cs/usage.md" lang="cs" dir="ltr">Čeština</a> ·
+<a href="de/usage.md" lang="de" dir="ltr">Deutsch</a> ·
+<a href="es/usage.md" lang="es" dir="ltr">Español</a> ·
+<a href="fa/usage.md" lang="fa" dir="rtl">فارسی</a> ·
+<a href="fr/usage.md" lang="fr" dir="ltr">Français</a> ·
+<a href="he/usage.md" lang="he" dir="rtl">עברית</a> ·
+<a href="hi/usage.md" lang="hi" dir="ltr">हिन्दी</a> ·
+<a href="id/usage.md" lang="id" dir="ltr">Bahasa Indonesia</a> ·
+<a href="it/usage.md" lang="it" dir="ltr">Italiano</a> ·
+<a href="ja/usage.md" lang="ja" dir="ltr">日本語</a> ·
+<a href="ko/usage.md" lang="ko" dir="ltr">한국어</a> ·
+<a href="nl/usage.md" lang="nl" dir="ltr">Nederlands</a> ·
+<a href="pl/usage.md" lang="pl" dir="ltr">Polski</a> ·
+<a href="pt/usage.md" lang="pt" dir="ltr">Português</a> ·
+<a href="ru/usage.md" lang="ru" dir="ltr">Русский</a> ·
+<a href="th/usage.md" lang="th" dir="ltr">ไทย</a> ·
+<a href="tr/usage.md" lang="tr" dir="ltr">Türkçe</a> ·
+<a href="uk/usage.md" lang="uk" dir="ltr">Українська</a> ·
+<a href="vi/usage.md" lang="vi" dir="ltr">Tiếng Việt</a> ·
+<a href="zh-Hans/usage.md" lang="zh-Hans" dir="ltr">简体中文</a> ·
+<a href="zh-Hant/usage.md" lang="zh-Hant" dir="ltr">繁體中文</a>
+</p>
+<!-- language-navigation:end -->
+<a id="audit"></a>
 
 ## Audit
 
@@ -13,6 +45,8 @@ Exit codes: 0 = no error/warning; 1 = semantic or sample-quality finding; 2 = in
 
 Do not use `|| true` in CI to hide findings. Intentionally invalid examples should explicitly assert exit 1. Help and version exit 0. `import-ha` always writes a JSON contract; `--json` does not change its schema.
 
+<a id="python-library"></a>
+
 ## Python library
 
 ```python
@@ -26,6 +60,8 @@ assert report["sums"][0]["value"] == 720
 
 `parse_contract` creates frozen dataclasses; `InputError` exposes `code`, `path`, `params`. Use this parser at every untrusted input boundary. `audit` expects a validated `Contract`; it does not translate findings. The CLI adds localized `message` values. The caller chooses evaluation time explicitly in the library. Neither API mutates the input or writes files.
 
+<a id="offline-home-assistant-adapter"></a>
+
 ## Offline Home Assistant adapter
 
 ```sh
@@ -38,6 +74,8 @@ Map `entity_id` and `timestamp_attribute` on each desired meter. The export is a
 Only mapped values and source times are copied. Other attributes are ignored, including friendly names. A strictly newer sample moves the existing sample to `previous`. Replaying the same value with the same source timestamp is idempotent; an older sample or a conflicting value at the same timestamp is rejected as `ha_sample_order`. Missing entities and `unknown`/`unavailable` states clear the sample; they do not become zero. A missing source timestamp, incompatible unit, malformed value or duplicate entity ID fails the import with exit 2. Unmapped meters are unchanged. Entity IDs may exist in a private contract; public examples use synthetic identifiers.
 
 An ordinary HA export often lacks an original source timestamp. In that case this adapter intentionally refuses to invent one. Obtain timestamped device data or retain the meter as unavailable. HA receipt/update timestamps do not prove device acquisition time. The adapter never connects to `/api/states` or reads a token. It does not copy energy reset markers from HA; add verified reset evidence separately before summing energy.
+
+<a id="suggested-workflow"></a>
 
 ## Suggested workflow
 
