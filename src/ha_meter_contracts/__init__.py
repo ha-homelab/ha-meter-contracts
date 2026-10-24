@@ -5,4 +5,4 @@ from .model import Contract, InputError, parse_contract
 from .reader import load_document
 
 __all__ = ["Contract", "InputError", "audit", "load_document", "parse_contract"]
-__version__ = "0.1.1b1"
+__version__ = "0.1.1rc1"

@@ -4,6 +4,12 @@
 
 No pending changes.
 
+## 0.1.1rc1 — 2026-10-24
+
+- Package the complete 24-language guides and checked-in wiki sources.
+- Preserve executable examples and source digests in documentation parity checks; read multilingual files explicitly as UTF-8.
+- Retain the beta runtime behavior, dependency pins and offline/synthetic acceptance boundaries.
+
 ## 0.1.1b1 — 2026-10-20
 
 - Publish the first GitHub beta packages with matching source/package versions and SHA-256 checksums.
