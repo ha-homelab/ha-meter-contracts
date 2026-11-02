@@ -8,3 +8,4 @@ recursive-include src *.py *.typed *.json
 
 include GOVERNANCE.md CODE_OF_CONDUCT.md ROADMAP.md RELEASING.md
 recursive-include tools *.py
+include requirements-ci.in requirements-ci.txt
