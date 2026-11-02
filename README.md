@@ -55,14 +55,18 @@ The offline adapter copies only explicitly mapped measurements and source-time a
 
 ## Development
 
+Use the [locked CI environment](CONTRIBUTING.md#reproduce-the-ci-environment)
+for development dependencies and reproducible source/wheel builds.
+
 ```sh
-.venv/bin/python3 -m pip install -e '.[dev]'
+.venv/bin/python3 -m pip install --only-binary=:all: --require-hashes -r requirements-ci.txt
+.venv/bin/python3 -m pip install --no-index --no-deps --no-build-isolation -e .
 .venv/bin/python3 -m pytest -q
 .venv/bin/python3 -m ruff check .
 .venv/bin/python3 -m ruff format --check .
 .venv/bin/python3 scripts/generate_schema.py
 .venv/bin/python3 scripts/generate_diagrams.py
-.venv/bin/python3 -m build
+.venv/bin/python3 -m build --no-isolation
 ```
 
 All fixtures and illustrations are synthetic. Tests cover false pump attribution, alias double counting, counter resets, stale/future data, malformed input, offline import and EN/RU/DE/ES translation parity. This validator checks declarations; it does not discover wiring, certify electrical protection or repair hardware.
