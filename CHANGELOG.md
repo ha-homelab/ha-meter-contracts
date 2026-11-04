@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+## 0.1.2b1 — 2026-11-03
+
 - Return the existing timestamp diagnostic when an evaluation time cannot be
   represented in UTC, instead of crashing while producing the report. Valid
   boundary dates and timezone normalization remain supported.
+- Build with setuptools 84.2.1 and hash-locked runtime/validation/build inputs;
+  retain the existing PyYAML 6.0.3 dependency and source distribution contents.
+- Keep CodeQL action updates grouped and refresh pinned CI actions; opt-in merge
+  automation requires an independent current-head review and the existing checks.
 
 ## 0.1.1 - 2026-10-24
 
