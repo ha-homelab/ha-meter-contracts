@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-No pending changes.
+- Return the existing timestamp diagnostic when an evaluation time cannot be
+  represented in UTC, instead of crashing while producing the report. Valid
+  boundary dates and timezone normalization remain supported.
 
 ## 0.1.1 - 2026-10-24
 

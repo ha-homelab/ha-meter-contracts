@@ -12,6 +12,10 @@ def audit(contract: Contract, *, at: datetime) -> dict[str, Any]:
     """Return deterministic machine findings and additive values at an explicit time."""
     if at.tzinfo is None or at.utcoffset() is None:
         raise InputError("input_timestamp", "$.at")
+    try:
+        normalized_at = at.astimezone(UTC)
+    except OverflowError:
+        raise InputError("input_timestamp", "$.at") from None
     findings: list[dict[str, Any]] = []
 
     def add(code: str, severity: str, path: str, **params: Any) -> None:
@@ -215,7 +219,7 @@ def audit(contract: Contract, *, at: datetime) -> dict[str, Any]:
     }
     return {
         "schema_version": 1,
-        "at": at.astimezone(UTC).isoformat(),
+        "at": normalized_at.isoformat(),
         "summary": summary,
         "findings": findings,
         "sums": totals,

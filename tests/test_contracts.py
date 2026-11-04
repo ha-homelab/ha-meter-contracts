@@ -317,6 +317,56 @@ def test_naive_timestamp_rejected():
         check(document)
 
 
+@pytest.mark.parametrize(
+    "value",
+    ["0001-01-01T00:00:00+01:00", "9999-12-31T23:59:59-01:00"],
+)
+def test_utc_calendar_overflow_returns_timestamp_error(value):
+    document = fixture()
+    before = copy.deepcopy(document)
+    with pytest.raises(InputError) as caught:
+        check(document, at=datetime.fromisoformat(value))
+    assert caught.value.code == "input_timestamp"
+    assert caught.value.path == "$.at"
+    assert caught.value.params == {}
+    assert document == before
+
+
+@pytest.mark.parametrize(
+    "value,expected",
+    [
+        ("0001-01-01T01:00:00+01:00", "0001-01-01T00:00:00+00:00"),
+        ("9999-12-31T22:59:59-01:00", "9999-12-31T23:59:59+00:00"),
+    ],
+)
+def test_representable_utc_calendar_boundaries_remain_valid(value, expected):
+    report = check(fixture(), at=datetime.fromisoformat(value))
+    assert report["at"] == expected
+
+
+def test_cli_utc_calendar_overflow_is_structured():
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "ha_meter_contracts",
+            "check",
+            str(ROOT / "examples/valid-three-meters.json"),
+            "--at",
+            "0001-01-01T00:00:00+01:00",
+            "--json",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    assert result.returncode == 2
+    assert result.stderr == ""
+    assert json.loads(result.stdout)["error"]["code"] == "input_timestamp"
+    assert json.loads(result.stdout)["error"]["path"] == "$.at"
+
+
 def test_ha_overlay_converts_units_without_copying_private_attributes():
     contract, states = fixture("ha-contract.json"), fixture("ha-states.synthetic.json")
     original = copy.deepcopy(contract)
