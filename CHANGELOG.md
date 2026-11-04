@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.1.2 — 2026-11-03
+
+- Promote the checked 0.1.2 release candidate after package and synthetic validation.
+- Retain corrected input diagnostics, complete source archives and dependency pins.
+
 ## 0.1.2rc1 — 2026-11-03
 
 - Promote the checked 0.1.2 beta after installed-wheel and source-archive validation.
