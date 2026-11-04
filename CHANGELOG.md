@@ -4,6 +4,9 @@
 
 ## 0.1.2b1 — 2026-11-03
 
+- Include the release workflow reference and documentation metadata in source
+  archives, so the shipped release guide and documentation inputs are complete.
+
 - Return the existing timestamp diagnostic when an evaluation time cannot be
   represented in UTC, instead of crashing while producing the report. Valid
   boundary dates and timezone normalization remain supported.
