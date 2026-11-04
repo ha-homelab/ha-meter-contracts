@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.1.2rc1 — 2026-11-03
+
+- Promote the checked 0.1.2 beta after installed-wheel and source-archive validation.
+- Preserve the input-validation fixes, complete source packaging and dependency pins.
+
 ## 0.1.2b1 — 2026-11-03
 
 - Include the release workflow reference and documentation metadata in source
