@@ -9,3 +9,6 @@ recursive-include src *.py *.typed *.json
 include GOVERNANCE.md CODE_OF_CONDUCT.md ROADMAP.md RELEASING.md
 recursive-include tools *.py
 include requirements-ci.in requirements-ci.txt
+
+# Inputs referenced by the release guide and multilingual documentation checks.
+include .github/workflows/check.yml docs/languages.json docs/translations.json
