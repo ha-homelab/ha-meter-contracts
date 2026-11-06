@@ -10,9 +10,11 @@ jobs:
   scope:
     uses: victron-venus/venus-os-ci-toolkit/.github/workflows/change-scope.yml@e71559f44e41f39ad0037bf13c7f43bbbb2ec9af # main
     with:
-      force-full: true
-  check:
+      force-full: false
+      documentation-paths: "[\"README.de.md\",\"README.es.md\",\"README.ru.md\",\"wiki/Contract-ar.md\",\"wiki/Contract-bn.md\",\"wiki/Contract-cs.md\",\"wiki/Contract-de.md\",\"wiki/Contract-es.md\",\"wiki/Contract-fa.md\",\"wiki/Contract-fr.md\",\"wiki/Contract-he.md\",\"wiki/Contract-hi.md\",\"wiki/Contract-id.md\",\"wiki/Contract-it.md\",\"wiki/Contract-ja.md\",\"wiki/Contract-ko.md\",\"wiki/Contract-nl.md\",\"wiki/Contract-pl.md\",\"wiki/Contract-pt.md\",\"wiki/Contract-ru.md\",\"wiki/Contract-th.md\",\"wiki/Contract-tr.md\",\"wiki/Contract-uk.md\",\"wiki/Contract-vi.md\",\"wiki/Contract-zh-Hans.md\",\"wiki/Contract-zh-Hant.md\",\"wiki/Contract.md\",\"wiki/Home-ar.md\",\"wiki/Home-bn.md\",\"wiki/Home-cs.md\",\"wiki/Home-de.md\",\"wiki/Home-es.md\",\"wiki/Home-fa.md\",\"wiki/Home-fr.md\",\"wiki/Home-he.md\",\"wiki/Home-hi.md\",\"wiki/Home-id.md\",\"wiki/Home-it.md\",\"wiki/Home-ja.md\",\"wiki/Home-ko.md\",\"wiki/Home-nl.md\",\"wiki/Home-pl.md\",\"wiki/Home-pt.md\",\"wiki/Home-ru.md\",\"wiki/Home-th.md\",\"wiki/Home-tr.md\",\"wiki/Home-uk.md\",\"wiki/Home-vi.md\",\"wiki/Home-zh-Hans.md\",\"wiki/Home-zh-Hant.md\",\"wiki/Home.md\",\"wiki/Troubleshooting-ar.md\",\"wiki/Troubleshooting-bn.md\",\"wiki/Troubleshooting-cs.md\",\"wiki/Troubleshooting-de.md\",\"wiki/Troubleshooting-es.md\",\"wiki/Troubleshooting-fa.md\",\"wiki/Troubleshooting-fr.md\",\"wiki/Troubleshooting-he.md\",\"wiki/Troubleshooting-hi.md\",\"wiki/Troubleshooting-id.md\",\"wiki/Troubleshooting-it.md\",\"wiki/Troubleshooting-ja.md\",\"wiki/Troubleshooting-ko.md\",\"wiki/Troubleshooting-nl.md\",\"wiki/Troubleshooting-pl.md\",\"wiki/Troubleshooting-pt.md\",\"wiki/Troubleshooting-ru.md\",\"wiki/Troubleshooting-th.md\",\"wiki/Troubleshooting-tr.md\",\"wiki/Troubleshooting-uk.md\",\"wiki/Troubleshooting-vi.md\",\"wiki/Troubleshooting-zh-Hans.md\",\"wiki/Troubleshooting-zh-Hant.md\",\"wiki/Troubleshooting.md\",\"wiki/Usage-ar.md\",\"wiki/Usage-bn.md\",\"wiki/Usage-cs.md\",\"wiki/Usage-de.md\",\"wiki/Usage-es.md\",\"wiki/Usage-fa.md\",\"wiki/Usage-fr.md\",\"wiki/Usage-he.md\",\"wiki/Usage-hi.md\",\"wiki/Usage-id.md\",\"wiki/Usage-it.md\",\"wiki/Usage-ja.md\",\"wiki/Usage-ko.md\",\"wiki/Usage-nl.md\",\"wiki/Usage-pl.md\",\"wiki/Usage-pt.md\",\"wiki/Usage-ru.md\",\"wiki/Usage-th.md\",\"wiki/Usage-tr.md\",\"wiki/Usage-uk.md\",\"wiki/Usage-vi.md\",\"wiki/Usage-zh-Hans.md\",\"wiki/Usage-zh-Hant.md\",\"wiki/Usage.md\",\"wiki/_Sidebar.md\"]"
+  validation:
     needs: scope
+    if: ${{ needs.scope.outputs.run == 'true' }}
     runs-on: ${{ fromJSON((vars.CI_RUNNER_MODE == 'self-hosted' || vars.CI_RUNNER_MODE == 'k3s') && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (contains(fromJSON('["push","schedule","workflow_dispatch"]'), github.event_name) && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) && (vars.CI_RUNNER_LABELS || '[]') || '["ubuntu-latest"]') }}
     timeout-minutes: 15
     steps:
@@ -38,6 +40,40 @@ jobs:
           python3 -m pytest -q
           python3 tools/check_docs.py
           python3 -m build --no-isolation --outdir "$RUNNER_TEMP/dist"
+  check:
+    name: check
+    needs: [scope, validation]
+    if: ${{ always() }}
+    runs-on: ${{ fromJSON((vars.CI_RUNNER_MODE == 'self-hosted' || vars.CI_RUNNER_MODE == 'k3s') && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (contains(fromJSON('["push","schedule","workflow_dispatch"]'), github.event_name) && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) && (vars.CI_RUNNER_LABELS || '[]') || '["ubuntu-latest"]') }}
+    timeout-minutes: 5
+    steps:
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
+        with:
+          egress-policy: audit
+      - name: Require the selected validation path
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        shell: python3 {0}
+        run: |
+          import json, os
+          results = json.loads(os.environ['RESULTS'])
+          if set(results) != {'scope', 'validation'}:
+              raise SystemExit('Validation job inventory differs')
+          scope = results['scope']
+          outputs = scope.get('outputs', {})
+          run = outputs.get('run')
+          if scope['result'] != 'success' or run not in {'true', 'false'}:
+              raise SystemExit('Change scope did not succeed')
+          if run == 'false' and outputs.get('reason') != 'documentation-only':
+              raise SystemExit('Unproven documentation-only scope')
+          expected = 'success' if run == 'true' else 'skipped'
+          if results['validation']['result'] != expected:
+              raise SystemExit('Selected validation did not pass')
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check documentation without installing the application
+        run: python3 tools/check_docs.py
   secrets:
     runs-on: ${{ fromJSON((vars.CI_RUNNER_MODE == 'self-hosted' || vars.CI_RUNNER_MODE == 'k3s') && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (contains(fromJSON('["push","schedule","workflow_dispatch"]'), github.event_name) && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) && (vars.CI_RUNNER_LABELS || '[]') || '["ubuntu-latest"]') }}
     timeout-minutes: 5
